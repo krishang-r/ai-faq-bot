@@ -1,0 +1,54 @@
+# --- Virtual Environments ---
+venv/
+.env
+env/
+ENV/
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# --- Project Specific: Data & Embeddings ---
+# We ignore the raw text and the generated FAISS index to keep the repo light.
+# Only the PDF source (if small) should generally be tracked, or ignore all data.
+data/docs/raw_text.txt
+data/faiss_index/
+
+# --- Environment Secrets ---
+.env
+.flaskenv
+secrets.json
+
+# --- OS & IDEs ---
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+.vscode/
+.idea/
+
+# --- Docker & K8s ---
+.dockerignore
+# Usually, we keep Dockerfile and k8s files, but ignore local logs
+*.log
