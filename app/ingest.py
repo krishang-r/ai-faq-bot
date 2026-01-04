@@ -2,7 +2,7 @@ import PyPDF2
 from langchain_text_splitters import RecursiveCharacterTextSplitter 
 import os
 from langchain_community.vectorstores import FAISS
-from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_huggingface import HuggingFaceEmbeddings
 
 
 def pdf_to_text(pdf_filename, txt_filename):
