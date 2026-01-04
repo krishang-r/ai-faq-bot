@@ -1,6 +1,9 @@
 import PyPDF2
-# Updated import for modern LangChain
 from langchain_text_splitters import RecursiveCharacterTextSplitter 
+import os
+from langchain_community.vectorstores import FAISS
+from langchain_community.embeddings import HuggingFaceEmbeddings
+
 
 def pdf_to_text(pdf_filename, txt_filename):
     try:
@@ -41,11 +44,27 @@ def chunk_text(txt_filename):
         print(f"Error: {txt_filename} not found.")
         return []
 
+def create_vector_store(chunks):
+    # Ensure you have your API key set in your environment
+    # os.environ["OPENAI_API_KEY"] = "your-key-here"
+    
+    print("Converting chunks to vectors (embeddings)...")
+    
+    # Initialize the embedding model
+    embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
+    
+    # Create the Vector Store (this performs the conversion)
+    vector_db = FAISS.from_texts(chunks, embeddings)
+    
+    # Save the database locally so you don't have to re-embed every time
+    vector_db.save_local("../data/faiss_index")
+    
+    print("Vector database saved to ../data/faiss_index")
+    return vector_db
+
 # Execute
 pdf_to_text("../data/docs/faq.pdf","../data/docs/raw_text.txt")
 my_chunks = chunk_text("../data/docs/raw_text.txt")
 
 if my_chunks:
-    print("-" * 30)
-    print(f"Preview of Chunk 1:\n{my_chunks[0]}")
-    print("-" * 30)
+    vector_store = create_vector_store(my_chunks)
